@@ -1,1 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Black Opal Building Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo+Black&family=Archivo:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f0ebe0;
+    --gold: #c9a84c;
+    --gold-dark: #8a6a1f;
+    --rust: #1a1a1a;
+    --cream: #e8e0cc;
+    --muted: #6b6050;
+    --border: #2a2a2a;
+  }
 
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Archivo', sans-serif;
+    font-weight: 300;
+    cursor: crosshair;
+  }
+
+  /* ─── CUSTOM CURSOR ─── */
+  .cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--gold);
+    pointer-events: none;
+    z-index: 99999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s;
+    mix-blend-mode: multiply;
+  }
+
+  /* ─── MARQUEE STRIP ─── */
+  .marquee-strip {
+    background: var(--ink);
+    color: var(--gold);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    padding: 10px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+  }
+
+  .marquee-inner {
+    display: inline-block;
+    animation: marquee 25s linear infinite;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 37px; left: 0; right: 0;
+    z-index: 999;
+    background: var(--paper);
+    border-bottom: 3px solid var(--ink);
+    padding: 0 48px;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    text-decoration: none;
+  }
+
+  .nav-brand-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .nav-brand-name span {
+    color: var(--gold-dark);
+  }
+
+  .nav-brand-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: block;
+    margin-top: 2px;
+  }
+
+  .nav-links {
+    display: flex;
+    list-style: none;
+    height: 100%;
+  }
+
+  .nav-links li {
+    border-left: 1px solid var(--ink);
+  }
+
+  .nav-links a {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 24px;
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .nav-links a:hover {
+    background: var(--ink);
+    color: var(--gold);
+  }
+
+  .nav-cta a {
+    background: var(--gold-dark) !important;
+    color: var(--paper) !important;
+    font-weight: 400;
+  }
+
+  .nav-cta a:hover {
+    background: var(--ink) !important;
+    color: var(--gold) !important;
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    padding-top: 101px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .hero-left {
+    border-right: 3px solid var(--ink);
+    padding: 60px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-tag::before {
+    content: '●';
+    color: var(--gold);
+    font-size: 8px;
+    animation: blink 1.5s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 11vw, 160px);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+  }
+
+  .hero-title .gold-line {
+    color: var(--gold-dark);
+    display: block;
+    -webkit-text-stroke: 2px var(--gold-dark);
+    color: transparent;
+  }
+
+  .hero-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .hero-desc {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 420px;
+    border-left: 3px solid var(--gold);
+    padding-left: 20px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 0;
+  }
+
+  .btn-brutal {
+    padding: 16px 36px;
+    background: var(--ink);
+    color: var(--gold);
+    text-decoration: none;
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border: 3px solid var(--ink);
+    transition: all 0.15s;
+    display: inline-block;
+  }
+
+  .btn-brutal:hover {
+    background: var(--gold);
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+
+  .btn-brutal-outline {
+    padding: 16px 36px;
+    background: transparent;
+    color: var(--ink);
+    text-decoration: none;
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border: 3px solid var(--ink);
+    border-left: none;
+    transition: all 0.15s;
+    display: inline-block;
+  }
+
+  .btn-brutal-outline:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .hero-right {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .hero-img-top {
+    border-bottom: 3px solid var(--ink);
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    min-height: 300px;
+  }
+
+  .hero-img-top::after {
+    content: 'INTERIOR DESIGN\A MELBOURNE';
+    white-space: pre;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: rgba(0,0,0,0.08);
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    text-align: right;
+    line-height: 1.6;
+  }
+
+  .img-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+  }
+
+  .img-placeholder svg { opacity: 0.2; }
+
+  .img-placeholder span {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hero-stat {
+    padding: 32px 36px;
+    border-right: 3px solid var(--ink);
+    border-bottom: none;
+  }
+
+  .hero-stat:last-child { border-right: none; }
+
+  .hero-stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    line-height: 1;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .hero-stat-num span {
+    color: var(--gold-dark);
+  }
+
+  .hero-stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ─── SECTION HEADERS ─── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border-bottom: 3px solid var(--ink);
+    margin-bottom: 0;
+  }
+
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 14px 24px;
+    border-right: 3px solid var(--ink);
+    flex-shrink: 0;
+  }
+
+  .section-label-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--muted);
+    text-transform: uppercase;
+    padding: 14px 32px;
+    flex: 1;
+  }
+
+  .section-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    padding: 14px 24px;
+    border-left: 1px solid var(--ink);
+  }
+
+  /* ─── ABOUT ─── */
+  #about {
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .about-left {
+    border-right: 3px solid var(--ink);
+    padding: 64px 48px;
+  }
+
+  .about-big-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 6vw, 88px);
+    line-height: 0.92;
+    color: var(--ink);
+    margin-bottom: 40px;
+  }
+
+  .about-big-title em {
+    display: block;
+    -webkit-text-stroke: 2px var(--ink);
+    color: transparent;
+    font-style: normal;
+  }
+
+  .about-body {
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .about-right {
+    display: grid;
+    grid-template-rows: auto 1fr;
+  }
+
+  .about-quote {
+    padding: 48px;
+    border-bottom: 3px solid var(--ink);
+    background: var(--ink);
+  }
+
+  .about-quote p {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(24px, 3vw, 40px);
+    line-height: 1.1;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+
+  .about-quote cite {
+    display: block;
+    margin-top: 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    font-style: normal;
+  }
+
+  .about-img {
+    background: var(--cream);
+    min-height: 300px;
+  }
+
+  /* ─── SERVICES ─── */
+  #services {
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .services-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .service-item {
+    border-right: 3px solid var(--ink);
+    padding: 52px 40px;
+    position: relative;
+    transition: background 0.2s;
+  }
+
+  .service-item:last-child { border-right: none; }
+
+  .service-item:hover { background: var(--ink); }
+  .service-item:hover .service-item-num { color: var(--gold); }
+  .service-item:hover .service-item-name { color: var(--paper); }
+  .service-item:hover .service-item-desc { color: #888; }
+  .service-item:hover .service-item-arrow { color: var(--gold); }
+
+  .service-item-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    line-height: 1;
+    color: var(--cream);
+    margin-bottom: 8px;
+    transition: color 0.2s;
+  }
+
+  .service-item-name {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .service-item-desc {
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+
+  .service-item-arrow {
+    position: absolute;
+    bottom: 32px;
+    right: 32px;
+    font-size: 24px;
+    color: var(--cream);
+    transition: color 0.2s, transform 0.2s;
+  }
+
+  .service-item:hover .service-item-arrow {
+    transform: translate(4px, -4px);
+  }
+
+  /* ─── PORTFOLIO ─── */
+  #portfolio {
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .portfolio-filter-bar {
+    display: flex;
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .pf-btn {
+    padding: 14px 28px;
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--ink);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: crosshair;
+    transition: all 0.15s;
+  }
+
+  .pf-btn:hover, .pf-btn.active {
+    background: var(--ink);
+    color: var(--gold);
+  }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .pf-item {
+    border-right: 3px solid var(--ink);
+    border-bottom: 3px solid var(--ink);
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    background: var(--cream);
+    cursor: crosshair;
+  }
+
+  .pf-item:nth-child(3n) { border-right: none; }
+  .pf-item:nth-last-child(-n+3) { border-bottom: none; }
+
+  .pf-img {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #e8e0cc, #d8ceb8);
+    transition: transform 0.4s ease;
+  }
+
+  .pf-item:hover .pf-img { transform: scale(1.04); }
+
+  .pf-overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--ink);
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px;
+  }
+
+  .pf-item:hover .pf-overlay { opacity: 0.92; }
+
+  .pf-cat {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .pf-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.06em;
+    color: var(--paper);
+  }
+
+  .pf-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .pf-placeholder svg { opacity: 0.15; }
+  .pf-placeholder span {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.35em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ─── TESTIMONIALS ─── */
+  #testimonials {
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .testi-card {
+    border-right: 3px solid var(--ink);
+    padding: 52px 40px;
+    position: relative;
+    transition: background 0.2s;
+  }
+
+  .testi-card:last-child { border-right: none; }
+  .testi-card:hover { background: var(--cream); }
+
+  .testi-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 120px;
+    line-height: 0.8;
+    color: var(--cream);
+    margin-bottom: 16px;
+    transition: color 0.2s;
+  }
+
+  .testi-card:hover .testi-num { color: #d8ceb8; }
+
+  .testi-text {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--ink);
+    margin-bottom: 32px;
+    font-style: italic;
+  }
+
+  .testi-author {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .testi-avatar {
+    width: 40px;
+    height: 40px;
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .testi-name {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .testi-loc {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .testi-stars {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: var(--gold-dark);
+  }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    border-bottom: 3px solid var(--ink);
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+  }
+
+  .contact-left {
+    border-right: 3px solid var(--ink);
+    padding: 64px 48px;
+    background: var(--ink);
+  }
+
+  .contact-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 5vw, 80px);
+    line-height: 0.92;
+    color: var(--paper);
+    margin-bottom: 40px;
+  }
+
+  .contact-big span {
+    display: block;
+    color: var(--gold);
+  }
+
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-top: 1px solid #2a2a2a;
+  }
+
+  .contact-row {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 24px 0;
+    border-bottom: 1px solid #2a2a2a;
+  }
+
+  .contact-row-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.35em;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    width: 80px;
+    flex-shrink: 0;
+    padding-top: 3px;
+  }
+
+  .contact-row-val {
+    font-size: 14px;
+    color: var(--paper);
+    line-height: 1.5;
+  }
+
+  .contact-right {
+    padding: 64px 48px;
+  }
+
+  .form-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    margin-bottom: 36px;
+  }
+
+  .brutal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .brutal-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .brutal-field {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--ink);
+    border-collapse: collapse;
+    margin: -1px;
+  }
+
+  .brutal-field label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+    background: var(--ink);
+    padding: 8px 16px;
+  }
+
+  .brutal-field input,
+  .brutal-field select,
+  .brutal-field textarea {
+    background: transparent;
+    border: none;
+    border-top: 1px solid var(--ink);
+    padding: 14px 16px;
+    font-family: 'Archivo', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--ink);
+    outline: none;
+    width: 100%;
+  }
+
+  .brutal-field select option { background: var(--paper); }
+
+  .brutal-field textarea {
+    resize: vertical;
+    min-height: 110px;
+  }
+
+  .brutal-submit {
+    padding: 20px 48px;
+    background: var(--ink);
+    color: var(--gold);
+    border: 3px solid var(--ink);
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: crosshair;
+    transition: all 0.15s;
+    align-self: flex-start;
+    margin-top: 2px;
+  }
+
+  .brutal-submit:hover {
+    background: var(--gold-dark);
+    border-color: var(--gold-dark);
+    color: var(--paper);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--ink);
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    border-bottom: 1px solid #2a2a2a;
+  }
+
+  .footer-col {
+    padding: 52px 40px;
+    border-right: 1px solid #2a2a2a;
+  }
+
+  .footer-col:last-child { border-right: none; }
+
+  .footer-brand-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 0.06em;
+    color: var(--paper);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .footer-brand-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.3em;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .footer-brand-desc {
+    font-size: 13px;
+    line-height: 1.75;
+    color: #666;
+    max-width: 260px;
+  }
+
+  .footer-col h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .footer-col ul { list-style: none; }
+
+  .footer-col ul li {
+    margin-bottom: 12px;
+  }
+
+  .footer-col ul li a {
+    color: #888;
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s;
+    font-family: 'Archivo', sans-serif;
+  }
+
+  .footer-col ul li a:hover { color: var(--gold); }
+
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-bottom p {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: #444;
+  }
+
+  .footer-socials {
+    display: flex;
+    gap: 0;
+  }
+
+  .footer-socials a {
+    padding: 10px 16px;
+    border: 1px solid #2a2a2a;
+    border-right: none;
+    color: #555;
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    transition: all 0.15s;
+  }
+
+  .footer-socials a:last-child { border-right: 1px solid #2a2a2a; }
+  .footer-socials a:hover { background: var(--gold-dark); color: var(--paper); border-color: var(--gold-dark); }
+
+  /* ─── REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .rd1 { transition-delay: 0.1s; }
+  .rd2 { transition-delay: 0.2s; }
+  .rd3 { transition-delay: 0.3s; }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 1024px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    #hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 40px 24px; }
+    .about-grid, #contact { grid-template-columns: 1fr; }
+    .services-list { grid-template-columns: 1fr; }
+    .service-item { border-right: none; border-bottom: 3px solid var(--ink); }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .testi-card { border-right: none; border-bottom: 3px solid var(--ink); }
+    .portfolio-grid { grid-template-columns: 1fr 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .contact-left { border-right: none; }
+  }
+
+  @media (max-width: 600px) {
+    .portfolio-grid { grid-template-columns: 1fr; }
+    .brutal-form-row { grid-template-columns: 1fr; }
+    .hero-stats { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <span class="marquee-inner">
+    BLACK OPAL BUILDING SOLUTIONS &nbsp;·&nbsp; MELBOURNE AUSTRALIA &nbsp;·&nbsp; INTERIOR DESIGN &nbsp;·&nbsp; RENOVATION &amp; FITOUT &nbsp;·&nbsp; PROJECT MANAGEMENT &nbsp;·&nbsp; LUXURY SPACES &nbsp;·&nbsp; EST. 2014 &nbsp;·&nbsp;
+    BLACK OPAL BUILDING SOLUTIONS &nbsp;·&nbsp; MELBOURNE AUSTRALIA &nbsp;·&nbsp; INTERIOR DESIGN &nbsp;·&nbsp; RENOVATION &amp; FITOUT &nbsp;·&nbsp; PROJECT MANAGEMENT &nbsp;·&nbsp; LUXURY SPACES &nbsp;·&nbsp; EST. 2014 &nbsp;·&nbsp;
+  </span>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-brand">
+    <div>
+      <div class="nav-brand-name">BLACK <span>OPAL</span></div>
+      <span class="nav-brand-sub">Building Solutions · Melbourne</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li class="nav-cta"><a href="#contact">Enquire</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Melbourne, Victoria · Est. 2014</div>
+    <div>
+      <h1 class="hero-title">
+        BLACK<br>
+        <span class="gold-line">OPAL</span><br>
+        BUILD.
+      </h1>
+    </div>
+    <div class="hero-bottom">
+      <p class="hero-desc">Melbourne's premier interior design and building consultancy. We transform residential and commercial spaces into extraordinary environments.</p>
+      <div class="hero-actions">
+        <a href="#portfolio" class="btn-brutal">View Work</a>
+        <a href="#contact" class="btn-brutal-outline">Start Project</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img-top">
+      <div class="img-placeholder">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="#0d0d0d" stroke-width="1">
+          <rect x="4" y="4" width="56" height="56" rx="1"/>
+          <path d="M4 44 L18 30 L28 38 L42 22 L60 44"/>
+          <circle cx="20" cy="20" r="6"/>
+        </svg>
+        <span>Project Image</span>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">150<span>+</span></div>
+        <div class="hero-stat-label">Projects Done</div>
+      </div>
+      <div class="hero-stat" style="border-right:none">
+        <div class="hero-stat-num">10<span>+</span></div>
+        <div class="hero-stat-label">Years Active</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <span class="section-label-text">About the Studio</span>
+    <span class="section-year">EST. 2014</span>
+  </div>
+  <div class="about-grid">
+    <div class="about-left">
+      <h2 class="about-big-title reveal">
+        CRAFTING<br>
+        <em>SPACES</em><br>
+        THAT LAST.
+      </h2>
+      <p class="about-body reveal rd1">Black Opal Building Solutions is Melbourne's premier interior design and building consultancy, dedicated to transforming residential and commercial spaces into extraordinary environments that reflect the unique vision of each client.</p>
+      <p class="about-body reveal rd2">Founded on the principles of precision, elegance, and innovation, we blend contemporary design sensibilities with timeless craftsmanship. Every project is an opportunity to create something truly remarkable.</p>
+    </div>
+    <div class="about-right">
+      <div class="about-quote">
+        <p>"Design is not just what it looks like. Design is how it works — and how it makes you feel."</p>
+        <cite>— Black Opal Studio Principle</cite>
+      </div>
+      <div class="about-img">
+        <div class="img-placeholder" style="min-height:280px">
+          <svg width="56" height="56" viewBox="0 0 64 64" fill="none" stroke="#0d0d0d" stroke-width="1">
+            <path d="M8 56V24L32 8l24 16v32H40V38H24v18z"/>
+          </svg>
+          <span>Studio Image</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <span class="section-label-text">What We Do</span>
+    <span class="section-year">6 SERVICES</span>
+  </div>
+  <div class="services-list">
+    <div class="service-item reveal">
+      <div class="service-item-num">01</div>
+      <h3 class="service-item-name">Interior Design</h3>
+      <p class="service-item-desc">Full-scope residential and commercial interior design. Every element curated — from spatial planning to material finishes.</p>
+      <span class="service-item-arrow">↗</span>
+    </div>
+    <div class="service-item reveal rd1">
+      <div class="service-item-num">02</div>
+      <h3 class="service-item-name">Renovation & Fitout</h3>
+      <p class="service-item-desc">Complete renovation and fitout services from concept to completion. Delivered on time, beyond expectations.</p>
+      <span class="service-item-arrow">↗</span>
+    </div>
+    <div class="service-item reveal rd2">
+      <div class="service-item-num">03</div>
+      <h3 class="service-item-name">Project Management</h3>
+      <p class="service-item-desc">End-to-end project management. We coordinate trades, suppliers, and timelines so you don't have to.</p>
+      <span class="service-item-arrow">↗</span>
+    </div>
+    <div class="service-item reveal">
+      <div class="service-item-num">04</div>
+      <h3 class="service-item-name">Space Planning</h3>
+      <p class="service-item-desc">Intelligent space planning that maximises functionality without compromising aesthetics.</p>
+      <span class="service-item-arrow">↗</span>
+    </div>
+    <div class="service-item reveal rd1">
+      <div class="service-item-num">05</div>
+      <h3 class="service-item-name">Material Selection</h3>
+      <p class="service-item-desc">Expert curation of premium materials, finishes, and furnishings. Exclusive access to bespoke suppliers.</p>
+      <span class="service-item-arrow">↗</span>
+    </div>
+    <div class="service-item reveal rd2">
+      <div class="service-item-num">06</div>
+      <h3 class="service-item-name">Consultation</h3>
+      <p class="service-item-desc">Strategic design consultation to define your vision, direction, budget allocation, and priorities.</p>
+      <span class="service-item-arrow">↗</span>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <span class="section-label-text">Selected Work</span>
+    <span class="section-year">6 PROJECTS</span>
+  </div>
+  <div class="portfolio-filter-bar">
+    <button class="pf-btn active">All</button>
+    <button class="pf-btn">Residential</button>
+    <button class="pf-btn">Commercial</button>
+    <button class="pf-btn">Renovation</button>
+  </div>
+  <div class="portfolio-grid">
+    <div class="pf-item">
+      <div class="pf-img"><div class="pf-placeholder"><svg width="40" height="40" viewBox="0 0 48 48" fill="none" stroke="#0d0d0d" stroke-width="1"><rect x="4" y="4" width="40" height="40"/><path d="M4 32l10-10 8 6 10-12 16 16"/></svg><span>Project Image</span></div></div>
+      <div class="pf-overlay"><p class="pf-cat">Residential</p><h3 class="pf-name">Toorak Luxury Residence</h3></div>
+    </div>
+    <div class="pf-item">
+      <div class="pf-img"><div class="pf-placeholder"><svg width="40" height="40" viewBox="0 0 48 48" fill="none" stroke="#0d0d0d" stroke-width="1"><path d="M6 42V18L24 6l18 12v24"/><rect x="18" y="28" width="12" height="14"/></svg><span>Project Image</span></div></div>
+      <div class="pf-overlay"><p class="pf-cat">Commercial</p><h3 class="pf-name">South Yarra Penthouse</h3></div>
+    </div>
+    <div class="pf-item">
+      <div class="pf-img"><div class="pf-placeholder"><svg width="40" height="40" viewBox="0 0 48 48" fill="none" stroke="#0d0d0d" stroke-width="1"><rect x="6" y="14" width="36" height="28"/><path d="M6 22h36"/></svg><span>Project Image</span></div></div>
+      <div class="pf-overlay"><p class="pf-cat">Renovation</p><h3 class="pf-name">Brighton Heritage Reno</h3></div>
+    </div>
+    <div class="pf-item">
+      <div class="pf-img"><div class="pf-placeholder"><svg width="40" height="40" viewBox="0 0 48 48" fill="none" stroke="#0d0d0d" stroke-width="1"><circle cx="24" cy="20" r="10"/><path d="M24 30v12"/></svg><span>Project Image</span></div></div>
+      <div class="pf-overlay"><p class="pf-cat">Residential</p><h3 class="pf-name">Fitzroy Terrace</h3></div>
+    </div>
+    <div class="pf-item">
+      <div class="pf-img"><div class="pf-placeholder"><svg width="40" height="40" viewBox="0 0 48 48" fill="none" stroke="#0d0d0d" stroke-width="1"><rect x="4" y="10" width="40" height="30"/><line x1="4" y1="20" x2="44" y2="20"/></svg><span>Project Image</span></div></div>
+      <div class="pf-overlay"><p class="pf-cat">Commercial</p><h3 class="pf-name">CBD Office Fitout</h3></div>
+    </div>
+    <div class="pf-item">
+      <div class="pf-img"><div class="pf-placeholder"><svg width="40" height="40" viewBox="0 0 48 48" fill="none" stroke="#0d0d0d" stroke-width="1"><path d="M4 42L24 6l20 36H4z"/></svg><span>Project Image</span></div></div>
+      <div class="pf-overlay"><p class="pf-cat">Renovation</p><h3 class="pf-name">St Kilda Apartment</h3></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <span class="section-label-text">Client Voices</span>
+    <span class="section-year">★★★★★</span>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testi-card reveal">
+      <div class="testi-num">"</div>
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">Black Opal transformed our Toorak home beyond anything we imagined. Their attention to detail is unmatched, and the final result is simply breathtaking.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">S</div>
+        <div>
+          <p class="testi-name">Sarah & James Mitchell</p>
+          <p class="testi-loc">Toorak, Melbourne</p>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal rd1">
+      <div class="testi-num">"</div>
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">From first consultation to final reveal, the Black Opal team was professional, creative, and genuinely passionate. Our office fitout has elevated everything.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">M</div>
+        <div>
+          <p class="testi-name">Marcus Chen</p>
+          <p class="testi-loc">Melbourne CBD</p>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal rd2">
+      <div class="testi-num">"</div>
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">The renovation of our Brighton home required honouring the past while building for the future. Black Opal achieved this with extraordinary grace.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">R</div>
+        <div>
+          <p class="testi-name">Rachel Thompson</p>
+          <p class="testi-loc">Brighton, Melbourne</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-left">
+    <h2 class="contact-big">BEGIN<br>YOUR<br><span>JOURNEY.</span></h2>
+    <div class="contact-details">
+      <div class="contact-row">
+        <span class="contact-row-label">Location</span>
+        <span class="contact-row-val">Melbourne, Victoria, Australia</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-row-label">Phone</span>
+        <span class="contact-row-val">+61 (0)3 XXXX XXXX</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-row-label">Email</span>
+        <span class="contact-row-val">hello@blackopalbuilding.com.au</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-row-label">Hours</span>
+        <span class="contact-row-val">Mon–Fri, 9am–6pm AEST</span>
+      </div>
+    </div>
+  </div>
+  <div class="contact-right">
+    <h3 class="form-title">SEND AN ENQUIRY</h3>
+    <div class="brutal-form">
+      <div class="brutal-form-row">
+        <div class="brutal-field">
+          <label>First Name</label>
+          <input type="text" placeholder="John">
+        </div>
+        <div class="brutal-field">
+          <label>Last Name</label>
+          <input type="text" placeholder="Smith">
+        </div>
+      </div>
+      <div class="brutal-field">
+        <label>Email Address</label>
+        <input type="email" placeholder="john@example.com">
+      </div>
+      <div class="brutal-field">
+        <label>Phone Number</label>
+        <input type="tel" placeholder="+61 XXX XXX XXX">
+      </div>
+      <div class="brutal-field">
+        <label>Service Interest</label>
+        <select>
+          <option value="">Select a service...</option>
+          <option>Interior Design</option>
+          <option>Renovation & Fitout</option>
+          <option>Project Management</option>
+          <option>Space Planning</option>
+          <option>Material Selection</option>
+          <option>Consultation</option>
+        </select>
+      </div>
+      <div class="brutal-field">
+        <label>Project Details</label>
+        <textarea placeholder="Tell us about your vision, scope, timeline..."></textarea>
+      </div>
+      <button class="brutal-submit">Send Enquiry →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-col">
+      <div class="footer-brand-name">BLACK OPAL</div>
+      <span class="footer-brand-sub">Building Solutions · Melbourne</span>
+      <p class="footer-brand-desc">Melbourne's premier interior design and building consultancy, dedicated to creating extraordinary spaces that inspire and endure.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">Interior Design</a></li>
+        <li><a href="#services">Renovation & Fitout</a></li>
+        <li><a href="#services">Project Management</a></li>
+        <li><a href="#services">Space Planning</a></li>
+        <li><a href="#services">Consultation</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">Melbourne, VIC</a></li>
+        <li><a href="#">hello@blackopalbuilding.com.au</a></li>
+        <li><a href="#">+61 (0)3 XXXX XXXX</a></li>
+        <li><a href="#">Mon–Fri 9am–6pm</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 BLACK OPAL BUILDING SOLUTIONS PTY LTD · MELBOURNE, AUSTRALIA · ABN XX XXX XXX XXX</p>
+    <div class="footer-socials">
+      <a href="#">IG</a>
+      <a href="#">FB</a>
+      <a href="#">PT</a>
+      <a href="#">LI</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Portfolio filter
+  document.querySelectorAll('.pf-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.pf-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // Form submit
+  document.querySelector('.brutal-submit').addEventListener('click', function() {
+    this.textContent = 'SENT ✓';
+    this.style.background = '#2a5a1a';
+    this.style.borderColor = '#2a5a1a';
+    setTimeout(() => {
+      this.textContent = 'Send Enquiry →';
+      this.style.background = '';
+      this.style.borderColor = '';
+    }, 3000);
+  });
+</script>
+</body>
+</html>
